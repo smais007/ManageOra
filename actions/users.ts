@@ -5,8 +5,17 @@ import { UserProps } from "@/types/types";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 export async function createUser(data: UserProps) {
-  const { email, password, firstName, lastName, name, phone, image, role } =
-    data;
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    name,
+    phone,
+    image,
+    role,
+    userId,
+  } = data;
   try {
     // Hash the PAASWORD
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -32,12 +41,13 @@ export async function createUser(data: UserProps) {
         phone,
         image,
         role,
+        userId,
       },
     });
     revalidatePath("/dashboard/clients");
     revalidatePath("/dashboard/users");
 
-    // console.log(newUser);
+    console.log(newUser, "from new client");
     return {
       error: null,
       status: 200,

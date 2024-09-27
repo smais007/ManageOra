@@ -21,14 +21,16 @@ export type SelectOptionProps = {
   label: string;
   value: string;
 };
-type CategoryFormProps = {
+type ClientFormProps = {
   editingId?: string | undefined;
+  userId?: string;
   initialData?: User | undefined | null;
 };
 export default function ClientForm({
   editingId,
   initialData,
-}: CategoryFormProps) {
+  userId,
+}: ClientFormProps) {
   const {
     register,
     handleSubmit,
@@ -56,6 +58,7 @@ export default function ClientForm({
     data.name = `${data.firstName} ${data.lastName}`;
     data.image = imageUrl;
     data.role = "CLIENT";
+    data.userId = userId;
     try {
       if (editingId) {
         await updateUserById(editingId, data);

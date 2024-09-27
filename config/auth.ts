@@ -69,7 +69,7 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!existingUser) {
-            console.log("No user found");
+            // console.log("No user found");
             throw { error: "No user found", status: 401 };
           }
 
@@ -107,7 +107,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      console.log("JWT callback", { token, user });
+      // console.log("JWT callback", { token, user });
       if (user) {
         token.id = user.id;
         token.name = user.name;

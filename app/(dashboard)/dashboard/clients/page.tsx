@@ -4,10 +4,12 @@ import { Category, User } from "@prisma/client";
 import DataTable from "@/components/DataTableComponents/DataTable";
 import TableHeader from "../../../../components/dashboard/Tables/TableHeader";
 import { getAllCategories } from "@/actions/categories";
-import { getAllClients } from "@/actions/clients";
+import { getUserClients } from "@/actions/clients";
+import { getAuthUser } from "@/config/useAuth";
 
 export default async function page() {
-  const clients: User[] = (await getAllClients()) || [];
+  const user = await getAuthUser();
+  const clients: User[] = (await getUserClients(user?.id)) || [];
   return (
     <div className="p-8">
       <TableHeader
