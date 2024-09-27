@@ -59,16 +59,11 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          console.log(
-            "Authorize function called with credentials:",
-            credentials
-          );
           // Check if user credentials are Correct
           if (!credentials?.email || !credentials?.password) {
             throw { error: "No Inputs Found", status: 401 };
           }
-          console.log("Pass 1 checked ");
-          //Check if user exists
+
           const existingUser = await db.user.findUnique({
             where: { email: credentials.email },
           });
@@ -78,8 +73,6 @@ export const authOptions: NextAuthOptions = {
             throw { error: "No user found", status: 401 };
           }
 
-          console.log("Pass 2 Checked");
-          console.log(existingUser);
           let passwordMatch: boolean = false;
           //Check if Password is correct
           if (existingUser && existingUser.password) {
@@ -90,10 +83,9 @@ export const authOptions: NextAuthOptions = {
             );
           }
           if (!passwordMatch) {
-            console.log("Password incorrect");
             throw { error: "Password Incorrect", status: 401 };
           }
-          console.log("Pass 3 Checked");
+
           const user = {
             id: existingUser.id,
             name: existingUser.name,
@@ -105,12 +97,9 @@ export const authOptions: NextAuthOptions = {
             role: existingUser.role,
           };
           //
-          console.log("User Compiled");
-          console.log(user);
+
           return user;
         } catch (error) {
-          console.log("aLL Failed");
-          console.log(error);
           throw { error: "Something went wrong", status: 401 };
         }
       },
@@ -132,7 +121,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     session({ session, token }) {
-      console.log("Session callback", { session, token });
       if (session.user && token) {
         session.user.id = token.id;
         session.user.name = token.name;
